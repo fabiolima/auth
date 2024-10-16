@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Users::SessionsController < Devise::SessionsController
+  # skip_before_action :verify_authenticity_token
   respond_to :json
 
   def authenticate
@@ -40,11 +41,12 @@ class Users::SessionsController < Devise::SessionsController
 
     render json: {
       status: {
-        code: 200, message: "Logged in successfully.",
+        code: 200,
+        message: "Logged in successfully."
+      },
+      data: {
         token: @token,
-        data: {
-          user: UserSerializer.new(resource).serializable_hash[:data][:attributes]
-        }
+        user: UserSerializer.new(resource).serializable_hash[:data][:attributes]
       }
     }, status: :ok
   end
